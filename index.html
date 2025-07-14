@@ -7,6 +7,7 @@
 </head>
 <body>
   <h1>Tetris</h1>
+
   <div class="game-container">
     <canvas id="tetris" width="300" height="600"></canvas>
   </div>
@@ -14,6 +15,18 @@
   <div id="score">Score: 0</div>
   <button id="startButton">Start Game</button>
   <div id="game-over" style="display:none;">Game Over</div>
+
+  <!-- 📱 手機控制按鈕 -->
+  <div id="mobile-controls">
+    <div class="row">
+      <button id="rotate">🔄</button>
+    </div>
+    <div class="row">
+      <button id="left">◀️</button>
+      <button id="down">🔽</button>
+      <button id="right">▶️</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

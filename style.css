@@ -1,3 +1,4 @@
+/* 基本排版 */
 body {
   background-color: #111;
   color: white;
@@ -24,4 +25,29 @@ canvas {
   margin-top: 10px;
   padding: 8px 20px;
   font-size: 18px;
+}
+
+/* 📱 手機控制區 */
+#mobile-controls {
+  margin-top: 10px;
+}
+
+#mobile-controls .row {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+#mobile-controls button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #444;
+  color: white;
+}
+
+#mobile-controls button:active {
+  background-color: #666;
 }
