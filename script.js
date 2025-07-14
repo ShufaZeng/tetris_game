@@ -4,22 +4,19 @@ context.scale(30, 30);
 
 const scoreDisplay = document.getElementById('score');
 const gameOverDisplay = document.getElementById('game-over');
+const startButton = document.getElementById('startButton');
 
 const ROWS = 20;
 const COLUMNS = 10;
 let score = 0;
+let animationId = null;
+let gameRunning = false;
 
 const arena = createMatrix(COLUMNS, ROWS);
 
 const colors = [
   null,
-  'cyan',    // I
-  'blue',    // J
-  'orange',  // L
-  'yellow',  // O
-  'green',   // S
-  'purple',  // T
-  'red'      // Z
+  'cyan', 'blue', 'orange', 'yellow', 'green', 'purple', 'red'
 ];
 
 function createMatrix(w, h) {
@@ -99,7 +96,7 @@ function playerDrop() {
     arenaSweep();
     updateScore();
     if (collide(arena, player)) {
-      gameOver();
+      return gameOver();
     }
   }
   dropCounter = 0;
@@ -151,14 +148,14 @@ function updateScore() {
 }
 
 function gameOver() {
-  gameOverDisplay.style.display = 'block';
   cancelAnimationFrame(animationId);
+  gameRunning = false;
+  gameOverDisplay.style.display = 'block';
 }
 
 function draw() {
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
-
   drawMatrix(arena, { x: 0, y: 0 });
   drawMatrix(player.matrix, player.pos);
 }
@@ -166,16 +163,15 @@ function draw() {
 let dropCounter = 0;
 let dropInterval = 1000;
 let lastTime = 0;
-let animationId = null;
 
 function update(time = 0) {
+  if (!gameRunning) return;
   const deltaTime = time - lastTime;
   lastTime = time;
   dropCounter += deltaTime;
   if (dropCounter > dropInterval) {
     playerDrop();
   }
-
   draw();
   animationId = requestAnimationFrame(update);
 }
@@ -186,12 +182,21 @@ const player = {
 };
 
 document.addEventListener('keydown', event => {
+  if (!gameRunning) return;
   if (event.key === 'ArrowLeft') playerMove(-1);
   else if (event.key === 'ArrowRight') playerMove(1);
   else if (event.key === 'ArrowDown') playerDrop();
   else if (event.key === 'ArrowUp') playerRotate(1);
 });
 
-playerReset();
-updateScore();
-update();
+startButton.addEventListener('click', () => {
+  // 初始化遊戲
+  arena.forEach(row => row.fill(0));
+  score = 0;
+  gameOverDisplay.style.display = 'none';
+  updateScore();
+  playerReset();
+  lastTime = 0;
+  gameRunning = true;
+  update();
+});

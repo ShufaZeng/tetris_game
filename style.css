@@ -19,3 +19,9 @@ canvas {
   font-size: 24px;
   margin-top: 10px;
 }
+
+#startButton {
+  margin-top: 10px;
+  padding: 8px 20px;
+  font-size: 18px;
+}
